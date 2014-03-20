@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Components\Camera_Component.cs" />
+    <Compile Include="Components\Components\GeometryID_Component.cs" />
     <Compile Include="Components\Components\Position3D_Component.cs" />
     <Compile Include="Components\Components\Number_Component.cs" />
     <Compile Include="Components\Components\ShaderID_Component.cs" />
@@ -126,12 +127,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Resources\Effects\Effect_Pool.cs" />
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\Geometry\Geometry_Pool.cs" />
+    <Compile Include="Resources\Geometry\Geometry_Pool.cs" />
     <Compile Include="Resources\Geometry\Model.cs" />
     <Compile Include="Resources\Geometry\ModelLoader.cs" />
     <Compile Include="Resources\Geometry\ModelMesh.cs" />

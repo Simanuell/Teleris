@@ -62,7 +62,6 @@ namespace Teleris.Systems
             RenderNodes.Setup(Engine, typeof(RenderNode));
             Engine.GetNodeList(typeof(RenderNode));
 
-
             vertexConstantBuffer = new Buffer(DeviceManager.Instance.Device, Utilities.SizeOf<VertexShaderData>(), ResourceUsage.Default, BindFlags.ConstantBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
             DeviceManager.Instance.Context.VertexShader.SetConstantBuffer(0, vertexConstantBuffer);
             //VertexShaderData vsData = new VertexShaderData();
@@ -125,12 +124,19 @@ namespace Teleris.Systems
             {
 
                
-                ShaderIDComponent ShaderID = (ShaderIDComponent)node.GetProperty("ShaderID"); 
+                ShaderIDComponent ShaderID = (ShaderIDComponent)node.GetProperty("ShaderID");
                 var Shader = ShaderID.ShaderID;
+                //GeometryIDComponent GeoID = (GeometryIDComponent)node.GetProperty("GeometryID");
+                //var Geo = GeoID.GeometryID;
 
                 VertexShader VertexShader = EffectPool.Pool._effects[Shader].VertexShader;
                 PixelShader PixelShader = EffectPool.Pool._effects[Shader].PixelShader;
+
+                //GeometryModel Teapot = GeometryPool.Pool._models[Geo].model;
                 
+
+
+
                 ShaderSignature InputSignature = EffectPool.Pool._effects[Shader].InputSignature;
 
                 VertexComponent VertexComponent = (VertexComponent)node.GetProperty("VertexComponent");

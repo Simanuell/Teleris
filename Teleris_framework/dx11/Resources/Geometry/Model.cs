@@ -16,9 +16,9 @@ using Teleris.Resources;
 namespace Teleris.Resources
 {
     // A container for the meshes loaded from the file
-    class Model
+    public class Model
     {
-        List<ModelMesh> m_meshes;
+        public List<ModelMesh> m_meshes;
         bool m_inputLayoutSet;
 
         Vector3 m_aaBoxMin;
@@ -59,6 +59,7 @@ namespace Teleris.Resources
             m_aaBoxMax = max;
             m_aaBoxCentre = 0.5f * (min + max);
         }
+
 
         //Go through the meshes and render them
         public void Render(DeviceContext context)

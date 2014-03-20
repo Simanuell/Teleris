@@ -13,7 +13,7 @@ using Device = SharpDX.Direct3D11.Device;
 
 namespace Teleris.Resources
 {
-    class ModelMesh
+    public class ModelMesh
     {
         InputElement[] m_inputElements;
         public InputElement[] InputElements

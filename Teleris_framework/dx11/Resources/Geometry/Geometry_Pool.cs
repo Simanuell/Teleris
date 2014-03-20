@@ -13,81 +13,60 @@ using Buffer = SharpDX.Direct3D11.Buffer;
 using SharpDX.Direct3D;
 using SharpDX.D3DCompiler;
 using Teleris.Core.Managers;
+using Assimp;
+using System.Diagnostics;
 
 namespace Teleris.Resources
 {
     //Base
-    public class Geometry
+    //C:/Users/ilkkaj/Documents/GitHub/Teleris/Teleris_framework/Models/teapot.obj
+
+    public class GeometryModel
     {
 
-        private ShaderSignature _inputSignature;
-        private VertexShader _vertexShader;
-        private PixelShader _pixelShader;
 
-        private Buffer _vertexBuffer;
-        private InputElement[] _elements;
+        public GeometryModel(string FileName)
+        {
+            String fileName = FileName;
+            ModelLoader modelLoader = new ModelLoader(DeviceManager.Instance.Device);
+            Debug.WriteLine("joouuuu");
+            model = modelLoader.Load(fileName);
+
+        }
+
+        public string jokudata = "aaaa";
+        public Model model;
+        public ShaderSignature _inputSignature;
+        public Buffer _indexBuffer;
+        public VertexShader _vertexShader;
+        public PixelShader _pixelShader;
+
+        public Buffer _vertexBuffer;
+        public InputElement[] _elements;
 
         //Geometry Here
 
-        virtual public Buffer VertexBuffer
+        public Buffer VertexBuffer
         {
             get { return _vertexBuffer; }
         }
 
-        virtual public InputElement[] InputElements
+        public Buffer IndexBuffer
         {
-            get { return _elements; }
-        }  
-
-    }
-
-    //Procedural models
-    public class Triangle:Geometry
-    {
-
-        ShaderSignature _inputSignature;
-        VertexShader _vertexShader;
-        PixelShader _pixelShader;
-
-        Buffer _vertexBuffer;
-        InputElement[] _elements;
-
-        public Triangle()
-        {
-
-            DataStream vertices = new DataStream(12 * 3, true, true);
-            vertices.Write(new Vector3(0.0f, 0.5f, 0.5f));
-            vertices.Write(new Vector3(0.5f, -0.5f, 0.5f));
-            vertices.Write(new Vector3(-0.5f, -0.5f, 0.5f));
-            vertices.Position = 0;
-
-            // create the vertex layout and buffer
-            _elements = new[] { new InputElement("POSITION", 0, Format.R32G32B32_Float, 0) };
-
-            _vertexBuffer = new Buffer(DeviceManager.Instance.Device, vertices, 12 * 3,
-            ResourceUsage.Default, BindFlags.VertexBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
-
+            get { return _indexBuffer; }
         }
 
-
-        public override Buffer VertexBuffer
-        {
-            get { return _vertexBuffer; }
-        }
-
-        public override InputElement[] InputElements
+        public InputElement[] InputElements
         {
             get { return _elements; }
         }
 
     }
-
-    //Models
 
     public class GeometryPool
     {
         //effect name, the effect and it's input signature
-        public Dictionary<string, Geometry> _models;
+        public Dictionary<string, GeometryModel> _models;
 
 
         #region Singleton Pattern
@@ -98,21 +77,27 @@ namespace Teleris.Resources
             {
                 if (pool == null)
                 {
+
                     pool = new GeometryPool();
+                    
                 }
-                return pool;
+                return pool; 
+                
             }
+        
         }
         #endregion
 
 
         private GeometryPool()
         {
-            _models = new Dictionary<string, Geometry>();
+            _models = new Dictionary<string, GeometryModel>();
 
             //Simple Triangle
-            Triangle BasicTriangle = new Triangle();
-            _models.Add("Triangle", BasicTriangle);
+            GeometryModel Teapot = new GeometryModel("C:/Users/ilkkaj/Documents/GitHub/Teleris/Teleris_framework/Models/teapot.obj");
+            _models.Add("Teapot", Teapot);
+
+            Debug.WriteLine("jooo");
 
         }
 

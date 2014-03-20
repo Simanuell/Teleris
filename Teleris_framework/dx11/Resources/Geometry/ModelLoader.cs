@@ -13,6 +13,7 @@ using Teleris;
 using Color = SharpDX.Color;
 using Device = SharpDX.Direct3D11.Device;
 using Buffer = SharpDX.Direct3D11.Buffer;
+using System.Diagnostics;
 
 namespace Teleris.Resources
 {
@@ -27,6 +28,7 @@ namespace Teleris.Resources
             m_device = device;
             m_importer = new AssimpImporter();
             m_importer.SetConfig(new NormalSmoothingAngleConfig(66.0f));
+            Debug.WriteLine("loader created");
         }
 
         //Load model

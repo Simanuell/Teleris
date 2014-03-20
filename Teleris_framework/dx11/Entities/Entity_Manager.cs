@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Teleris.Components;
 using Teleris.Components.Components;
+using Teleris.Resources;
 
 namespace Teleris.Entities
 {
@@ -39,9 +40,10 @@ namespace Teleris.Entities
 
             Entity e = new Entity(Name);
             ShaderIDComponent ShaderID = new ShaderIDComponent(); ShaderID.ShaderID = "colored.fx";
+            GeometryIDComponent GeometryID = new GeometryIDComponent(); GeometryID.GeometryID = "Teapot";
             VertexComponent vertices = new VertexComponent();
             TextComponent Text = new TextComponent();
-            e.Add(vertices).Add(ShaderID).Add(Text);
+            e.Add(vertices).Add(GeometryID).Add(ShaderID).Add(Text); //Add(vertices)
             return e;
         
         }

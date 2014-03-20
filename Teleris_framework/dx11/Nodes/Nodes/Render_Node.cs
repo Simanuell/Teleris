@@ -14,6 +14,7 @@ namespace Teleris.Nodes
     public class RenderNode : INode
     {
         public ShaderIDComponent ShaderID { get; set; }
+        //public GeometryIDComponent GeometryID { get; set; }
         public VertexComponent VertexComponent { get; set; }
 
     }

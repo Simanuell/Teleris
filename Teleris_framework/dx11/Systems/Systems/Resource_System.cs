@@ -19,8 +19,8 @@ namespace Teleris.Systems.Systems
 
         public override void AddToGame(IEngine Engine)
         {
-            string path = "C:/Users/ilkka.jahnukainen/Desktop/own project/Teleris framework/dx11/Resources/Effects/Shaders/";
-            //string path = "C:/Users/ilkkaj/Documents/Visual Studio 2010/Projects/Teleris framework/dx11/Resources/Effects/Shaders/";
+            //string path = "C:/Users/ilkka.jahnukainen/Desktop/own project/Teleris framework/dx11/Resources/Effects/Shaders/";
+            string path = "C:/Users/ilkkaj/Documents/GitHub/Teleris/Teleris_framework/dx11/Resources/Effects/Shaders/";
             //string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "dx11\Resources\Effects\Shaders\");
             
             // Create a new FileSystemWatcher and set its properties.

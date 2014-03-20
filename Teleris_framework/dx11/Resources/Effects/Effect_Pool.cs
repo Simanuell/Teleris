@@ -27,8 +27,9 @@ namespace Teleris.Resources
 
         public Effect(string EffectFile)
         {
-            string path = "C:/Users/ilkka.jahnukainen/Desktop/own project/Teleris framework/dx11/Resources/Effects/Shaders/";
-            //string path = "C:/Users/ilkkaj/Documents/Visual Studio 2010/Projects/Teleris framework/dx11/Resources/Effects/Shaders/";
+            
+            //string path = "C:/Users/ilkka.jahnukainen/Desktop/own project/Teleris framework/dx11/Resources/Effects/Shaders/";
+            string path = "C:/Users/ilkkaj/Documents/GitHub/Teleris/Teleris_framework/dx11/Resources/Effects/Shaders/";
             // load and compile the vertex shader
             using (var bytecode = ShaderBytecode.CompileFromFile(path + EffectFile, "VShader", "vs_4_0", ShaderFlags.None, EffectFlags.None))
             {
@@ -80,7 +81,7 @@ namespace Teleris.Resources
                 {
                     pool = new EffectPool();
                 }
-                return pool;
+                return pool; 
             }
         }
         #endregion
@@ -91,7 +92,7 @@ namespace Teleris.Resources
             _effects = new Dictionary<string, Effect>();
 
             //Create an effect and add into the pool
-
+            
             _effects.Add("triangle.fx", new Effect("triangle.fx"));
             _effects.Add("colored.fx", new Effect("colored.fx"));
 
