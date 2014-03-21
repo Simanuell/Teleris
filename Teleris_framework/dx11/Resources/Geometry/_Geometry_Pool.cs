@@ -21,53 +21,30 @@ namespace Teleris.Resources
     //Base
     //C:/Users/ilkkaj/Documents/GitHub/Teleris/Teleris_framework/Models/teapot.obj
 
-    public class GeometryMesh
-    {
-        InputElement[] m_inputElements;
-        public InputElement[] InputElements {get; set;}
-
-        InputLayout m_inputLayout;
-        public InputLayout InputLayout { get; set; }
-
-        int m_vertexSize;
-        public int VertexSize {get; set;}
-
-        Buffer m_vertexBuffer;
-        public Buffer VertexBuffer {get; set;}
-
-        Buffer m_indexBuffer;
-        public Buffer IndexBuffer {get; set;}
-
-        int m_vertexCount;
-        public int VertexCount {get; set;}
-
-        int m_indexCount;
-        public int IndexCount { get; set; }
-
-        int m_primitiveCount;
-        public int PrimitiveCount { get; set; }
-
-        PrimitiveTopology m_primitiveTopology;
-        public PrimitiveTopology PrimitiveTopology { get; set; }
-
-    }
-
-
     public class GeometryModel
     {
-        
-        public string olo;
-        private Buffer _vertexBuffer;
-        private Buffer _indexBuffer;
-        private InputElement[] _elements;
-        
 
-        public GeometryModel() 
+
+        public GeometryModel(string FileName)
         {
-            olo = "olo000";
-            Debug.WriteLine("Geopool"); 
+            String fileName = FileName;
+            ModelLoader modelLoader = new ModelLoader(DeviceManager.Instance.Device);
+            Debug.WriteLine("joouuuu");
+            model = modelLoader.Load(fileName);
+
         }
 
+        public string jokudata = "aaaa";
+        public Model model;
+        public ShaderSignature _inputSignature;
+        public Buffer _indexBuffer;
+        public VertexShader _vertexShader;
+        public PixelShader _pixelShader;
+
+        public Buffer _vertexBuffer;
+        public InputElement[] _elements;
+
+        //Geometry Here
 
         public Buffer VertexBuffer
         {
@@ -82,12 +59,9 @@ namespace Teleris.Resources
         public InputElement[] InputElements
         {
             get { return _elements; }
-        }  
-    
+        }
 
     }
-
-
 
     public class GeometryPool
     {
@@ -96,17 +70,21 @@ namespace Teleris.Resources
 
 
         #region Singleton Pattern
-        public static GeometryPool pool = null;
+        private static GeometryPool pool = null;
         public static GeometryPool Pool
         {
             get
             {
                 if (pool == null)
                 {
+
                     pool = new GeometryPool();
+                    
                 }
-                return pool;
+                return pool; 
+                
             }
+        
         }
         #endregion
 
@@ -114,10 +92,14 @@ namespace Teleris.Resources
         private GeometryPool()
         {
             _models = new Dictionary<string, GeometryModel>();
-            
-            GeometryModel testipala = new GeometryModel();
-            _models.Add("testipala", testipala); 
-            Debug.WriteLine("Geopool");
+
+            //Simple Triangle
+            GeometryModel Teapot = new GeometryModel("C:/Users/ilkkaj/Documents/GitHub/Teleris/Teleris_framework/Models/teapot.obj");
+            _models.Add("Teapot", Teapot);
+
+            Debug.WriteLine("jooo");
+
         }
+
     }
 }

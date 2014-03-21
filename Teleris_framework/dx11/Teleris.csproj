@@ -135,9 +135,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Compile Include="Resources\Geometry\Geometry_Pool.cs" />
-    <Compile Include="Resources\Geometry\Model.cs" />
-    <Compile Include="Resources\Geometry\ModelLoader.cs" />
-    <Compile Include="Resources\Geometry\ModelMesh.cs" />
+    <None Include="Resources\Geometry\_Geometry_Pool.cs" />
+    <None Include="Resources\Geometry\Model.cs" />
+    <None Include="Resources\Geometry\ModelLoader.cs" />
+    <None Include="Resources\Geometry\ModelMesh.cs" />
     <Compile Include="Resources\Geometry\Vertex.cs" />
     <Compile Include="Systems\ISystem.cs" />
     <Compile Include="Systems\SystemList.cs" />

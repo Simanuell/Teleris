@@ -78,27 +78,6 @@ namespace Teleris.Resources
             get { return m_primitiveTopology; }
         }
 
-        Texture2D m_diffuseTexture;
-        public Texture2D DiffuseTexture
-        {
-            set { m_diffuseTexture = value; }
-            get { return m_diffuseTexture; }
-        }
-
-        ShaderResourceView m_diffuseTextureView;
-        public ShaderResourceView DiffuseTextureView
-        {
-            set { m_diffuseTextureView = value; }
-            get { return m_diffuseTextureView; }
-        }
-
-        //add texture and texture view for the shader
-        public void AddTextureDiffuse(Device device, string path)
-        {
-            m_diffuseTexture = Texture2D.FromFile<Texture2D>(device, path);
-            m_diffuseTextureView = new ShaderResourceView(device, m_diffuseTexture);
-        }
-
         //set the input layout and make sure it matches vertex format from the shader
         public void SetInputLayout(Device device, ShaderSignature inputSignature)
         {

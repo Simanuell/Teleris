@@ -112,7 +112,10 @@ namespace Teleris.Systems
 
             //Debug.WriteLine(camera.View.Column3.X + camera.View.Column3.Y + camera.View.Column3.Z);
             //Debug.WriteLine("{0}, {1}, {2}", camera.Look.X, camera.Look.Y, camera.Look.Z);
-
+            //string testipala = "testipala";
+            //GeometryModel test = GeometryPool.Pool._models[testipala];
+            //var testa = test.olo;
+            //Debug.WriteLine(testa);
             
 
             DeviceManager.Instance.Context.ClearRenderTargetView(DeviceManager.Instance.mRenderTargetView, Color.Silver);
