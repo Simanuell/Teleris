@@ -65,8 +65,6 @@ namespace Teleris.Systems
 
             vertexConstantBuffer = new Buffer(DeviceManager.Instance.Device, Utilities.SizeOf<VertexShaderData>(), ResourceUsage.Default, BindFlags.ConstantBuffer, CpuAccessFlags.None, ResourceOptionFlags.None, 0);
             DeviceManager.Instance.Context.VertexShader.SetConstantBuffer(0, vertexConstantBuffer);
-            //VertexShaderData vsData = new VertexShaderData();
-
 
             //Init GUI drawing
 
@@ -80,13 +78,13 @@ namespace Teleris.Systems
 
             //Debug.WriteLine(test.
 
-            //TweakBar myBar1 = new TweakBar(GUI, "myTest1");
+            TweakBar myBar1 = new TweakBar(GUI, ".");
             //TweakBar myBar2 = new TweakBar(GUI, "myTest2");
             //TweakBar myBar3 = new TweakBar(GUI, "myTest3");
             //TweakBar myBar4 = new TweakBar(GUI, "myTest4");
             //TweakBar myBar5 = new TweakBar(GUI, "myTest5");
 
-            //AntTweakBar.TwDefine("myTest1 color='5 5 5' alpha = 100 fontsize=3 text=light iconifiable=true fontscaling=5 contained=true  iconpos=tl iconmargin='20 20'");
+            AntTweakBar.TwDefine(". color='60 60 60' alpha = 20 fontsize=3 text=dark iconifiable=true fontscaling=5 contained=true  iconpos=tl iconmargin='20 20'");
             //AntTweakBar.TwDefine("myTest2 color='5 5 5' alpha = 100 fontsize=2 text=light iconifiable=true fontscaling=5 contained=true  iconpos=tl");
             //AntTweakBar.TwDefine("myTest3 color='5 5 5' alpha = 100 fontsize=1 text=light iconifiable=true fontscaling=5 contained=true  iconpos=tl"); 
             //myBar1.AddFloat("parmA", "parmA", "parmA", 0, 100, 30, 0.1, 2);
@@ -115,7 +113,7 @@ namespace Teleris.Systems
             string name = Camera.Entity.Name;
             var camera = (CameraComponent)Camera.GetProperty("Camera");
 
-            DeviceManager.Instance.Context.ClearRenderTargetView(DeviceManager.Instance.mRenderTargetView, Color.Silver);
+            DeviceManager.Instance.Context.ClearRenderTargetView(DeviceManager.Instance.mRenderTargetView, Color.Black);
             DeviceManager.Instance.Context.ClearDepthStencilView(DeviceManager.Instance.mDepthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
 
 
@@ -127,7 +125,7 @@ namespace Teleris.Systems
             {
 
 
-                ShaderIDComponent ShaderID = (ShaderIDComponent)node.GetProperty("ShaderID");
+                var ShaderID = (ShaderIDComponent)node.GetProperty("ShaderID");
                 var Shader = ShaderID.ShaderID;
                 VertexShader VertexShader = EffectPool.Pool._effects[Shader].VertexShader;
                 PixelShader PixelShader = EffectPool.Pool._effects[Shader].PixelShader;
@@ -136,17 +134,18 @@ namespace Teleris.Systems
                 GeometryIDComponent GeometryID = (GeometryIDComponent)node.GetProperty("GeometryID");
                 var Geometry = GeometryID.GeometryID;
 
-                var meshes = GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes;
-                int meshIndex;
 
-                foreach (GeometryMesh mesh in meshes)
+
+                var meshes = GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes;
+                
+                for (int index = 0; index < meshes.Count; index++)
                 {
 
-                    meshIndex = meshes.IndexOf(mesh);
-
-                    var VertexBuffer = (Buffer)GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes[meshIndex].VertexBuffer;
-                    var IndexBuffer = (Buffer)GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes[meshIndex].IndexBuffer;
-                    var InputElements = GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes[meshIndex].InputElements;
+                    
+                    var mesh = GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes[index];
+                    var VertexBuffer = GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes[index].VertexBuffer;
+                    var IndexBuffer = GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes[index].IndexBuffer;
+                    var InputElements = GeometryPool.Pool._models[Geometry]._Geometrymodel._meshes[index].InputElements;
 
                     DeviceManager.Instance.Context.InputAssembler.InputLayout = new InputLayout(DeviceManager.Instance.Device, InputSignature, InputElements); ;
                     DeviceManager.Instance.Context.InputAssembler.PrimitiveTopology = PrimitiveTopology.TriangleList;
@@ -173,7 +172,6 @@ namespace Teleris.Systems
                     DeviceManager.Instance.Context.VertexShader.Set(VertexShader);
                     DeviceManager.Instance.Context.PixelShader.Set(PixelShader);
                     DeviceManager.Instance.Context.DrawIndexed(mesh.IndexCount, 0, 0);
-
 
                 }
 

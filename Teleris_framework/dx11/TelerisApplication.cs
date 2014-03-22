@@ -65,7 +65,7 @@ namespace Teleris
             Entity MainCamera = EntityManager.Camera("MainCamera");
             Engine.AddEntity(MainCamera);
 
-            for (int i = 1; i <= 40; i++)
+            for (int i = 1; i <= 1; i++)
             {
                 //Create and Entities
                 string Name = i.ToString();

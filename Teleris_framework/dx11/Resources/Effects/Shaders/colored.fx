@@ -20,13 +20,13 @@ VertexOut VShader(VertexIn vin){
 VertexOut vout;
 
 vout.PosH = mul(float4(vin.PosL, 1.0f), worldViewProj);
-vout.Color = mul(float4(vin.PosL, 1.0f), world);;
+vout.Color = mul(0.1*float4(vin.PosL, 1.0f), world);;
 
 return vout;
 }
 
 float4 PShader(VertexOut pin) :SV_Target {
-return abs(pin.Color);
+return abs(pin.Color.gbra);
 }
 
 technique11 ColorTech {
