@@ -27,8 +27,8 @@ namespace Teleris.Resources
 
         public Effect(string EffectFile)
         {
-            
-            //string path = "C:/Users/ilkka.jahnukainen/Desktop/own project/Teleris framework/dx11/Resources/Effects/Shaders/";
+
+            //string path = "C:/Users/ilkka.jahnukainen/Desktop/own project/from_home/Teleris/Teleris_framework/dx11/Resources/Effects/Shaders/";
             string path = "C:/Users/ilkkaj/Documents/GitHub/Teleris/Teleris_framework/dx11/Resources/Effects/Shaders/";
             // load and compile the vertex shader
             using (var bytecode = ShaderBytecode.CompileFromFile(path + EffectFile, "VShader", "vs_4_0", ShaderFlags.None, EffectFlags.None))

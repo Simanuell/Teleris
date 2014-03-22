@@ -137,7 +137,7 @@
     <Compile Include="Resources\Geometry\Geometry_Pool.cs" />
     <None Include="Resources\Geometry\_Geometry_Pool.cs" />
     <None Include="Resources\Geometry\Model.cs" />
-    <None Include="Resources\Geometry\ModelLoader.cs" />
+    <Compile Include="Resources\Geometry\ModelLoader.cs" />
     <None Include="Resources\Geometry\ModelMesh.cs" />
     <Compile Include="Resources\Geometry\Vertex.cs" />
     <Compile Include="Systems\ISystem.cs" />

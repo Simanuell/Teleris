@@ -14,42 +14,45 @@ using Color = SharpDX.Color;
 using Device = SharpDX.Direct3D11.Device;
 using Buffer = SharpDX.Direct3D11.Buffer;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace Teleris.Resources
 {
-    class ModelLoader
+    public class ModelLoader
     {
         Device m_device;
         AssimpImporter m_importer;
         String m_modelPath;
 
-        public ModelLoader(  Device device )
+        public ModelLoader(Device device)
         {
             m_device = device;
             m_importer = new AssimpImporter();
             m_importer.SetConfig(new NormalSmoothingAngleConfig(66.0f));
-            Debug.WriteLine("loader created");
+            //Debug.WriteLine("loader created");
         }
 
         //Load model
-        public Model Load(String fileName)
+        public GeometryModel Load(String fileName)
         {
+            Debug.WriteLine(fileName);
             Scene scene = m_importer.ImportFile(fileName, PostProcessPreset.TargetRealTimeMaximumQuality);
             
             //use this directory path to load textures from
-            m_modelPath = Path.GetDirectoryName(fileName);
+            m_modelPath = fileName; // Path.GetDirectoryName(fileName);
 
-            Model model = new Model();
+            GeometryModel model = new GeometryModel(fileName);
+            
             Matrix identity = Matrix.Identity;
-
+            
             AddVertexData(model, scene, scene.RootNode, m_device, ref identity);
             ComputeBoundingBox( model, scene );
-
+            Debug.WriteLine("Model Loaded");
             return model;
         }
 
         //calculates the bounding box of the whole model
-        private void ComputeBoundingBox(Model model, Scene scene)
+        private void ComputeBoundingBox(GeometryModel model, Scene scene)
         {
             Vector3 sceneMin = new Vector3(1e10f, 1e10f, 1e10f);
             Vector3 sceneMax = new Vector3(-1e10f, -1e10f, -1e10f);
@@ -66,7 +69,7 @@ namespace Teleris.Resources
         {
             Matrix previousTransform = transform;
             transform = Matrix.Multiply(previousTransform, FromMatrix(node.Transform));
-
+            
             if (node.HasMeshes)
             {
                 foreach (int index in node.MeshIndices)
@@ -81,10 +84,11 @@ namespace Teleris.Resources
                         min.X = Math.Min(min.X, result.X);
                         min.Y = Math.Min(min.Y, result.Y);
                         min.Z = Math.Min(min.Z, result.Z);
-
+                        //Debug.WriteLine(min.Z);
                         max.X = Math.Max(max.X, result.X);
                         max.Y = Math.Max(max.Y, result.Y);
                         max.Z = Math.Max(max.Z, result.Z);
+                        //Debug.WriteLine(max.Z);
                     }
                 }
             }
@@ -111,7 +115,7 @@ namespace Teleris.Resources
 
             if (hasColors)
                 noofElements++;
-
+                
             if (hasNormals)
                 noofElements++;
 
@@ -128,7 +132,7 @@ namespace Teleris.Resources
         }
 
         //Create meshes and add vertex and index buffers
-        private void AddVertexData(Model model, Scene scene, Node node, Device device, ref Matrix transform)
+        private void AddVertexData(GeometryModel model, Scene scene, Node node, Device device, ref Matrix transform)
         {
             Matrix previousTransform = transform;
             transform = Matrix.Multiply(previousTransform, FromMatrix(node.Transform));
@@ -142,13 +146,15 @@ namespace Teleris.Resources
             {
                 foreach (int index in node.MeshIndices)
                 {
+                    
                     //get a mesh from the scene
                     Assimp.Mesh mesh = scene.Meshes[index];
 
                     //create new mesh to add to model
-                    ModelMesh modelMesh = new ModelMesh();
+                    GeometryMesh modelMesh = new GeometryMesh();
                     model.AddMesh(ref modelMesh);
 
+                    /*
                     //if mesh has a material extract the diffuse texture, if present
                     Material material = scene.Materials[mesh.MaterialIndex];
                     if (material != null && material.GetTextureCount(TextureType.Diffuse) > 0)
@@ -157,6 +163,7 @@ namespace Teleris.Resources
                         //create new texture for mesh
                         modelMesh.AddTextureDiffuse(device, m_modelPath + "\\" + texture.FilePath);
                     }
+                    */
 
                     //determine the elements in the vertex
                     bool hasTexCoords = mesh.HasTextureCoords(0);
@@ -175,11 +182,13 @@ namespace Teleris.Resources
                     {
                         vertexElements[elementIndex++] = new InputElement("COLOR", 0, Format.R8G8B8A8_UInt, vertexSize, 0);
                          vertexSize += (short)Utilities.SizeOf<Color>();
+                         Debug.WriteLine("has Colors");
                     }
                     if (hasNormals)
                     {
                         vertexElements[elementIndex++] = new InputElement("NORMAL", 0, Format.R32G32B32_Float, vertexSize, 0);
                         vertexSize += (short)Utilities.SizeOf<Vector3>();
+                        Debug.WriteLine("has Normals");
                     }
                     if (hasTangents)
                     {
@@ -195,6 +204,7 @@ namespace Teleris.Resources
                     {
                         vertexElements[elementIndex++] = new InputElement("TEXCOORD", 0, Format.R32G32_Float, vertexSize, 0);
                         vertexSize += (short)Utilities.SizeOf<Vector2>();
+                        Debug.WriteLine("has TexCoords");
                     }
                    
                     //set the vertex elements and size
@@ -214,12 +224,15 @@ namespace Teleris.Resources
                     {
                         case Assimp.PrimitiveType.Point:
                             modelMesh.PrimitiveTopology = PrimitiveTopology.PointList;
+                            Debug.WriteLine("Is PointList");
                             break;
                         case Assimp.PrimitiveType.Line:
                             modelMesh.PrimitiveTopology = PrimitiveTopology.LineList;
+                            Debug.WriteLine("Is LineList");
                             break;
                         case Assimp.PrimitiveType.Triangle:
                             modelMesh.PrimitiveTopology = PrimitiveTopology.TriangleList;
+                            Debug.WriteLine("Is TriangleList");
                             break;
                         default:
                             throw new Exception("ModelLoader::AddVertexData(): Unknown primitive type");                           
@@ -227,15 +240,17 @@ namespace Teleris.Resources
 
                     //create data stream for vertices
                     DataStream vertexStream = new DataStream(mesh.VertexCount * vertexSize, true, true);
-
+                    Debug.WriteLine("vertex_count_"+mesh.Vertices.Length);
                     for (int i = 0; i < mesh.VertexCount; i++)
                     {
+                        
                         //add position, after transforming it with accumulated node transform
                         {
                             Vector4 result;
                             Vector3 pos = FromVector(positions[i]);                           
                             Vector3.Transform(ref pos, ref transform, out result);
                             vertexStream.Write<Vector3>(new Vector3(result.X, result.Y, result.Z));
+              
                         }
 
                         if (hasColors)
@@ -269,7 +284,7 @@ namespace Teleris.Resources
                             vertexStream.Write<Vector2>(new Vector2(texCoords[i].X, 1 - texCoords[i].Y));
                         }
                     }
-
+                    
                     vertexStream.Position = 0;
 
                     //create new vertex buffer
@@ -285,6 +300,7 @@ namespace Teleris.Resources
                                                     }
                                                  );
 
+                    
                     //add it to the mesh
                     modelMesh.VertexBuffer = vertexBuffer;
                     modelMesh.VertexCount = mesh.VertexCount;
