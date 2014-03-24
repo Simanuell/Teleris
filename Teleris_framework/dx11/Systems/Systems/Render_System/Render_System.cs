@@ -155,7 +155,7 @@ namespace Teleris.Systems
 
 
                     // Update transformation matrices
-                    vsData.world = Matrix.Identity * Matrix.RotationY(_time) * Matrix.Translation(0.0f, (float)Math.Sin(_time), 0.0f); _time += 0.001f;
+                    vsData.world = Matrix.Identity * Matrix.RotationY(_time) * Matrix.Translation(0.0f, (float)Math.Sin(_time), 0.0f); _time += 0.0001f;
                     vsData.worldView = vsData.world * camera.View;
                     vsData.worldViewProj = vsData.world * camera.ViewProj;
 
